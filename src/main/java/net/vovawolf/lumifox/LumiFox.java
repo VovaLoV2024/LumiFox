@@ -34,6 +34,16 @@ import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredItem;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
+// Импорт классов регистрации мода
+import net.vovawolf.lumifox.registry.ModEntityTypes;
+import net.vovawolf.lumifox.registry.ModItems;
+import net.vovawolf.lumifox.entity.LumiFox;
+import net.vovawolf.lumifox.entity.client.LumiFoxRenderer;
+import net.vovawolf.lumifox.entity.client.LumiFoxModel;
+import net.minecraft.client.renderer.entity.EntityRenderers;
+import net.minecraft.client.model.geom.ModelLayerLocation;
+import net.minecraft.resources.ResourceLocation;
+
 // The value here should match an entry in the META-INF/mods.toml file
 @Mod(LumiFox.MODID)
 public class LumiFox {
@@ -78,6 +88,11 @@ public class LumiFox {
         ITEMS.register(modEventBus);
         // Register the Deferred Register to the mod event bus so tabs get registered
         CREATIVE_MODE_TABS.register(modEventBus);
+        
+        // Регистрируем Deferred Register для сущностей
+        ModEntityTypes.ENTITY_TYPES.register(modEventBus);
+        // Регистрируем Deferred Register для предметов (яйцо призыва)
+        ModItems.ITEMS.register(modEventBus);
 
         // Register ourselves for server and other game events we are interested in.
         // Note that this is necessary if and only if we want *this* class (LumiFox) to respond directly to events.
@@ -102,12 +117,22 @@ public class LumiFox {
         LOGGER.info("{}{}", Config.MAGIC_NUMBER_INTRODUCTION.get(), Config.MAGIC_NUMBER.getAsInt());
 
         Config.ITEM_STRINGS.get().forEach((item) -> LOGGER.info("ITEM >> {}", item));
+        
+        // Регистрация атрибутов для LumiFox
+        event.enqueueWork(() -> {
+            // Здесь можно зарегистрировать атрибуты если нужно
+        });
     }
 
     // Add the example block item to the building blocks tab
     private void addCreative(BuildCreativeModeTabContentsEvent event) {
         if (event.getTabKey() == CreativeModeTabs.BUILDING_BLOCKS) {
             event.accept(EXAMPLE_BLOCK_ITEM);
+        }
+        
+        // Добавляем яйцо призыва LumiFox в спавнеры
+        if (event.getTabKey() == CreativeModeTabs.SPAWN_EGGS) {
+            event.accept(ModItems.LUMI_FOX_SPAWN_EGG.get());
         }
     }
 
@@ -126,6 +151,11 @@ public class LumiFox {
             // Some client setup code
             LOGGER.info("HELLO FROM CLIENT SETUP");
             LOGGER.info("MINECRAFT NAME >> {}", Minecraft.getInstance().getUser().getName());
+            
+            // Регистрация рендерера для LumiFox
+            event.enqueueWork(() -> {
+                EntityRenderers.register(ModEntityTypes.LUMI_FOX.get(), LumiFoxRenderer::new);
+            });
         }
     }
 }
