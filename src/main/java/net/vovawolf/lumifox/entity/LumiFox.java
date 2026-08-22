@@ -18,8 +18,6 @@ import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.*;
-import net.minecraft.world.entity.ai.goal.target.OwnerHurtByTargetGoal;
-import net.minecraft.world.entity.ai.goal.target.OwnerHurtTargetGoal;
 import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.animal.Fox;
 import net.minecraft.world.entity.player.Player;
@@ -31,15 +29,13 @@ import net.neoforged.neoforge.common.Tags;
 
 /**
  * Класс умной лисички Lumi, наследуется от ванильной лисы
- * Lumi - это прирученная и дружелюбная лиса с особым поведением
+ * Lumi - это дружелюбная и пассивная лиса, которая следует за игроком с сладкими ягодами
  */
 public class LumiFox extends Fox {
     
     // Конструктор для создания сущности LumiFox
     public LumiFox(EntityType<? extends Fox> entityType, Level level) {
         super(entityType, level);
-        // Устанавливаем лису прирученной по умолчанию
-        setTamed(true);
     }
     
     /**
@@ -51,18 +47,10 @@ public class LumiFox extends Fox {
         // Приоритетные цели
         this.goalSelector.addGoal(0, new FloatGoal(this)); // Плавание
         
-        // Цели взаимодействия с игроком
-        this.goalSelector.addGoal(1, new FollowOwnerGoal(this, 1.0D, 10.0F, 5.0F, true)); // Следование за владельцем
-        
-        // Боевые цели
-        this.goalSelector.addGoal(2, new MeleeAttackGoal(this, 1.0D, true)); // Атака в ближнем бою
-        this.targetSelector.addGoal(1, new OwnerHurtByTargetGoal(this)); // Атака тех, кто ранил владельца
-        this.targetSelector.addGoal(2, new OwnerHurtTargetGoal(this)); // Атака тех, кого ранил владелец
-        
         // Повседневные цели
-        this.goalSelector.addGoal(3, new LookAtPlayerGoal(this, Player.class, 6.0F)); // Смотреть на игрока
-        this.goalSelector.addGoal(4, new RandomStrollGoal(this, 0.8D)); // Случайное перемещение
-        this.goalSelector.addGoal(5, new WaterAvoidingRandomStrollGoal(this, 0.8D)); // Избегание воды
+        this.goalSelector.addGoal(1, new LookAtPlayerGoal(this, Player.class, 6.0F)); // Смотреть на игрока
+        this.goalSelector.addGoal(2, new RandomStrollGoal(this, 0.8D)); // Случайное перемещение
+        this.goalSelector.addGoal(3, new WaterAvoidingRandomStrollGoal(this, 0.8D)); // Избегание воды
     }
     
     /**
@@ -98,24 +86,7 @@ public class LumiFox extends Fox {
             return InteractionResult.sidedSuccess(this.level().isClientSide);
         }
         
-        // Если лиса не имеет владельца, устанавливаем текущего игрока
-        if (!this.isOwnedBy(player)) {
-            if (!this.level().isClientSide) {
-                this.setOwnerUUID(player.getUUID());
-            }
-            return InteractionResult.sidedSuccess(this.level().isClientSide);
-        }
-        
         return super.mobInteract(player, hand);
-    }
-    
-    /**
-     * Проверка, принадлежит ли лиса игроку
-     * @param player игрок для проверки
-     * @return true если лиса принадлежит игроку
-     */
-    public boolean isOwnedBy(Player player) {
-        return this.getOwnerUUID() != null && this.getOwnerUUID().equals(player.getUUID());
     }
     
     /**
@@ -136,12 +107,6 @@ public class LumiFox extends Fox {
     @Override
     public AgeableMob getBreedOffspring(ServerLevel serverLevel, Animal animal) {
         LumiFox lumiFox = (LumiFox) EntityType.FOX.create(serverLevel);
-        if (lumiFox != null) {
-            lumiFox.setTamed(true); // Потомство тоже прирученное
-            if (this.getOwnerUUID() != null) {
-                lumiFox.setOwnerUUID(this.getOwnerUUID()); // Наследует владельца
-            }
-        }
         return lumiFox;
     }
     

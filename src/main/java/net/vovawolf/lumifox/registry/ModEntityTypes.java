@@ -4,7 +4,7 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import net.neoforged.neoforge.registries.DeferredHolder;
-import net.vovawolf.lumifox.LumiFox;
+import net.vovawolf.lumifox.LumiMod;
 import net.vovawolf.lumifox.entity.LumiFox;
 
 /**
@@ -14,7 +14,7 @@ import net.vovawolf.lumifox.entity.LumiFox;
 public class ModEntityTypes {
     
     // Deferred Register для сущностей
-    public static final DeferredRegister<EntityType<?>> ENTITY_TYPES = DeferredRegister.create(EntityType.class, LumiFox.MODID);
+    public static final DeferredRegister<EntityType<?>> ENTITY_TYPES = DeferredRegister.create(EntityType.class, LumiMod.MODID);
     
     /**
      * Регистрация типа сущности LumiFox
@@ -26,6 +26,6 @@ public class ModEntityTypes {
             () -> EntityType.Builder.of(LumiFox::new, MobCategory.CREATURE)
                     .sized(0.6F, 0.7F) // Размер как у обычной лисы
                     .clientTrackingRange(8) // Дальность отслеживания клиентом
-                    .build(LumiFox.MODID + ":lumi_fox")
+                    .build(LumiMod.MODID + ":lumi_fox")
     );
 }

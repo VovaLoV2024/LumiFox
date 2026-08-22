@@ -1,49 +1,32 @@
 ```
+# Compiled and build artifacts
+*.class
+*.o
+*.obj
+*.out
+build/
+target/
+
 # Dependencies
 .gradle/
 libs/
 !libs/**/
 
-# Build artifacts
-build/
-!build/**/
-target/
-!target/**/
+# Logs and temp files
+*.log
+*.tmp
+*.swp
 
-# Java
-*.class
-*.jar
-*.war
-*.ear
-
-# Gradle
-.gradle/
-!gradle/wrapper/gradle-wrapper.jar
-
-# IDE
+# Editors
 .vscode/
 .idea/
-*.iml
-*.ipr
-*.iws
-.classpath
-.project
-.settings/
 
-# Temp files
-*.tmp
-*.temp
-*.bak
-
-# Logs
-*.log
-
-# OS
+# System files
 .DS_Store
 Thumbs.db
 
 # Environment
 .env
 .env.local
-*.env
+*.env.*
 ```

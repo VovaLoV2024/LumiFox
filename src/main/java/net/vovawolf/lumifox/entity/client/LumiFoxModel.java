@@ -11,7 +11,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
-import net.vovawolf.lumifox.LumiFox;
+import net.vovawolf.lumifox.LumiMod;
 import net.vovawolf.lumifox.entity.LumiFox;
 
 /**
@@ -23,7 +23,7 @@ public class LumiFoxModel<T extends LumiFox> extends FoxModel<T> {
     
     // Основной слой модели
     public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(
-            new ResourceLocation(LumiFox.MODID, "lumi_fox"), "main");
+            new ResourceLocation(LumiMod.MODID, "lumi_fox"), "main");
     
     /**
      * Конструктор модели
@@ -39,7 +39,8 @@ public class LumiFoxModel<T extends LumiFox> extends FoxModel<T> {
      * @return LayerDefinition
      */
     public static LayerDefinition createBodyLayer() {
-        MeshDefinition meshdefinition = FoxModel.createBodyLayer();
+        LayerDefinition layerdefinition = FoxModel.createBodyLayer();
+        MeshDefinition meshdefinition = layerdefinition.getRoot();
         return LayerDefinition.create(meshdefinition, 64, 32);
     }
 }
