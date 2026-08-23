@@ -23,6 +23,7 @@ import net.minecraft.world.entity.animal.Fox;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.neoforged.neoforge.common.Tags;
@@ -47,10 +48,13 @@ public class LumiFox extends Fox {
         // Приоритетные цели
         this.goalSelector.addGoal(0, new FloatGoal(this)); // Плавание
         
+        // Следование за игроком с сладкими ягодами
+        this.goalSelector.addGoal(1, new TemptGoal(this, 1.0D, Ingredient.of(Items.SWEET_BERRIES), false));
+        
         // Повседневные цели
-        this.goalSelector.addGoal(1, new LookAtPlayerGoal(this, Player.class, 6.0F)); // Смотреть на игрока
-        this.goalSelector.addGoal(2, new RandomStrollGoal(this, 0.8D)); // Случайное перемещение
-        this.goalSelector.addGoal(3, new WaterAvoidingRandomStrollGoal(this, 0.8D)); // Избегание воды
+        this.goalSelector.addGoal(2, new LookAtPlayerGoal(this, Player.class, 6.0F)); // Смотреть на игрока
+        this.goalSelector.addGoal(3, new RandomStrollGoal(this, 0.8D)); // Случайное перемещение
+        this.goalSelector.addGoal(4, new WaterAvoidingRandomStrollGoal(this, 0.8D)); // Избегание воды
     }
     
     /**

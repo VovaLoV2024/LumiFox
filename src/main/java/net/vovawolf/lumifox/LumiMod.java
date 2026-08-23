@@ -58,22 +58,12 @@ public class LumiMod {
     // Create a Deferred Register to hold CreativeModeTabs which will all be registered under the "lumi" namespace
     public static final DeferredRegister<CreativeModeTab> CREATIVE_MODE_TABS = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, MODID);
 
-    // Creates a new Block with the id "lumi:example_block", combining the namespace and path
-    public static final DeferredBlock<Block> EXAMPLE_BLOCK = BLOCKS.registerSimpleBlock("example_block", BlockBehaviour.Properties.of().mapColor(MapColor.STONE));
-    // Creates a new BlockItem with the id "lumi:example_block", combining the namespace and path
-    public static final DeferredItem<BlockItem> EXAMPLE_BLOCK_ITEM = ITEMS.registerSimpleBlockItem("example_block", EXAMPLE_BLOCK);
-
-    // Creates a new food item with the id "lumi:example_id", nutrition 1 and saturation 2
-    public static final DeferredItem<Item> EXAMPLE_ITEM = ITEMS.registerSimpleItem("example_item", new Item.Properties().food(new FoodProperties.Builder()
-            .alwaysEat().nutrition(1).saturationMod(2f).build()));
-
-    // Creates a creative tab with the id "lumi:example_tab" for the example item, that is placed after the combat tab
-    public static final DeferredHolder<CreativeModeTab, CreativeModeTab> EXAMPLE_TAB = CREATIVE_MODE_TABS.register("example_tab", () -> CreativeModeTab.builder()
-            .title(Component.translatable("itemGroup.lumi")) //The language key for the title of your CreativeModeTab
-            .withTabsBefore(CreativeModeTabs.COMBAT)
-            .icon(() -> EXAMPLE_ITEM.get().getDefaultInstance())
+    // Creates a creative tab with the id "lumi:lumifox_tab" for LumiFox items
+    public static final DeferredHolder<CreativeModeTab, CreativeModeTab> LUMIFOX_TAB = CREATIVE_MODE_TABS.register("lumifox_tab", () -> CreativeModeTab.builder()
+            .title(Component.translatable("itemGroup.lumifox")) // The language key for the title of your CreativeModeTab
+            .icon(() -> ModItems.LUMI_FOX_SPAWN_EGG.get().getDefaultInstance())
             .displayItems((parameters, output) -> {
-                output.accept(EXAMPLE_ITEM.get());// Add the example item to the tab. For your own tabs, this method is preferred over the event
+                output.accept(ModItems.LUMI_FOX_SPAWN_EGG.get()); // Add the spawn egg to the tab
             }).build());
 
     // The constructor for the mod class is the first code that is run when your mod is loaded.
@@ -126,10 +116,6 @@ public class LumiMod {
 
     // Add the example block item to the building blocks tab
     private void addCreative(BuildCreativeModeTabContentsEvent event) {
-        if (event.getTabKey() == CreativeModeTabs.BUILDING_BLOCKS) {
-            event.accept(EXAMPLE_BLOCK_ITEM);
-        }
-        
         // Добавляем яйцо призыва LumiFox в спавнеры
         if (event.getTabKey() == CreativeModeTabs.SPAWN_EGGS) {
             event.accept(ModItems.LUMI_FOX_SPAWN_EGG.get());

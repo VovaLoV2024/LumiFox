@@ -10,12 +10,11 @@ target/
 # Dependencies
 .gradle/
 libs/
-!libs/**/
+!src/main/resources/
 
 # Logs and temp files
 *.log
 *.tmp
-*.swp
 
 # Editors
 .vscode/

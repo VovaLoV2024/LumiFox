@@ -15,6 +15,7 @@ import net.minecraft.world.level.Level;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import net.vovawolf.lumifox.entity.LumiFox;
+import net.vovawolf.lumifox.registry.ModEntityTypes;
 
 import java.util.List;
 
@@ -24,28 +25,16 @@ import java.util.List;
  */
 public class LumiFoxSpawnEggItem extends SpawnEggItem {
     
-    // Цвета яйца (основной и пятна)
-    private static final int PRIMARY_COLOR = 0xD46918; // Оранжевый цвет лисы
-    private static final int SECONDARY_COLOR = 0xFFFFFF; // Белый цвет пятен
+    // Цвета яйца (основной оранжевый #FF7F00 и вторичный голубой #00BFFF)
+    private static final int PRIMARY_COLOR = 0xFF7F00; // Оранжевый цвет
+    private static final int SECONDARY_COLOR = 0x00BFFF; // Голубой цвет
     
     /**
      * Конструктор яйца призыва LumiFox
      * @param properties свойства предмета
      */
     public LumiFoxSpawnEggItem(Properties properties) {
-        super(null, PRIMARY_COLOR, SECONDARY_COLOR, properties);
-    }
-    
-    /**
-     * Получение типа сущности для спавна
-     * Переопределяем метод для возврата нашего типа LumiFox
-     * @param stack стек предмета
-     * @return EntityType<?> сущности
-     */
-    @Override
-    public EntityType<?> getType(CompoundTag tag) {
-        // Всегда возвращаем тип FOX, но с нашими настройками
-        return EntityType.FOX;
+        super(ModEntityTypes.LUMI_FOX.get(), PRIMARY_COLOR, SECONDARY_COLOR, properties);
     }
     
     /**
