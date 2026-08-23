@@ -1,5 +1,6 @@
 package net.vovawolf.lumifox.registry;
 
+import net.minecraft.core.registries.Registries;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
 import net.neoforged.neoforge.registries.DeferredRegister;
@@ -14,7 +15,7 @@ import net.vovawolf.lumifox.entity.LumiFox;
 public class ModEntityTypes {
     
     // Deferred Register для сущностей
-    public static final DeferredRegister<EntityType<?>> ENTITY_TYPES = DeferredRegister.create(EntityType.class, LumiMod.MODID);
+    public static final DeferredRegister<EntityType<?>> ENTITY_TYPES = DeferredRegister.create(Registries.ENTITY_TYPE, LumiMod.MODID);
     
     /**
      * Регистрация типа сущности LumiFox

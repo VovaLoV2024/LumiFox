@@ -57,8 +57,7 @@ public class LumiFoxSpawnEggItem extends SpawnEggItem {
      * @param pos позиция
      * @param spawnType тип спавна
      */
-    @Override
-    public void updateEntityTag(ItemStack stack, ServerLevel level, Player player, BlockPos pos, MobSpawnType spawnType) {
+    public void applyEntityTag(ItemStack stack, ServerLevel level, Player player, BlockPos pos, MobSpawnType spawnType) {
         // Создаем тег для установки прирученного состояния
         CompoundTag entityTag = new CompoundTag();
         entityTag.putBoolean("Tamed", true);

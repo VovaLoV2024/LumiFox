@@ -100,17 +100,6 @@ public class LumiFox extends Fox {
     }
     
     /**
-     * Создание потомства LumiFox
-     * @param animal родительское животное
-     * @return новая сущность LumiFox
-     */
-    @Override
-    public AgeableMob getBreedOffspring(ServerLevel serverLevel, Animal animal) {
-        LumiFox lumiFox = (LumiFox) EntityType.FOX.create(serverLevel);
-        return lumiFox;
-    }
-    
-    /**
      * Звук AMBIENT (окружающие звуки)
      * @return SoundEvent
      */
@@ -127,34 +116,5 @@ public class LumiFox extends Fox {
     @Override
     protected SoundEvent getHurtSound(DamageSource damageSource) {
         return SoundEvents.FOX_HURT;
-    }
-    
-    /**
-     * Звук смерти
-     * @return SoundEvent
-     */
-    @Override
-    protected SoundEvent getDeathSound() {
-        return SoundEvents.FOX_DEATH;
-    }
-    
-    /**
-     * Сохранение дополнительных данных NBT
-     * @param compound тег для записи данных
-     */
-    @Override
-    public void addAdditionalSaveData(CompoundTag compound) {
-        super.addAdditionalSaveData(compound);
-        // Можно добавить дополнительные данные здесь
-    }
-    
-    /**
-     * Загрузка дополнительных данных NBT
-     * @param compound тег с данными
-     */
-    @Override
-    public void readAdditionalSaveData(CompoundTag compound) {
-        super.readAdditionalSaveData(compound);
-        // Загружаем дополнительные данные здесь
     }
 }

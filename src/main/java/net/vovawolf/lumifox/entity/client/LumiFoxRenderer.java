@@ -8,7 +8,6 @@ import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.resources.ResourceLocation;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
-import net.vovawolf.lumifox.LumiFox;
 import net.vovawolf.lumifox.entity.LumiFox;
 
 /**

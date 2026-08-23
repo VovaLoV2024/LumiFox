@@ -39,8 +39,6 @@ public class LumiFoxModel<T extends LumiFox> extends FoxModel<T> {
      * @return LayerDefinition
      */
     public static LayerDefinition createBodyLayer() {
-        LayerDefinition layerdefinition = FoxModel.createBodyLayer();
-        MeshDefinition meshdefinition = layerdefinition.getRoot();
-        return LayerDefinition.create(meshdefinition, 64, 32);
+        return FoxModel.createBodyLayer();
     }
 }
