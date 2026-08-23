@@ -47,10 +47,13 @@ public class LumiFox extends Fox {
         // Приоритетные цели
         this.goalSelector.addGoal(0, new FloatGoal(this)); // Плавание
         
+        // Следование за игроком с сладкими ягодами
+        this.goalSelector.addGoal(1, new TemptGoal(this, 1.0D, Items.SWEET_BERRIES, false));
+        
         // Повседневные цели
-        this.goalSelector.addGoal(1, new LookAtPlayerGoal(this, Player.class, 6.0F)); // Смотреть на игрока
-        this.goalSelector.addGoal(2, new RandomStrollGoal(this, 0.8D)); // Случайное перемещение
-        this.goalSelector.addGoal(3, new WaterAvoidingRandomStrollGoal(this, 0.8D)); // Избегание воды
+        this.goalSelector.addGoal(2, new LookAtPlayerGoal(this, Player.class, 6.0F)); // Смотреть на игрока
+        this.goalSelector.addGoal(3, new RandomStrollGoal(this, 0.8D)); // Случайное перемещение
+        this.goalSelector.addGoal(4, new WaterAvoidingRandomStrollGoal(this, 0.8D)); // Избегание воды
     }
     
     /**
