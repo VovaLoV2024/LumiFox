@@ -1,5 +1,8 @@
 {
-  "itemGroup.lumifox": "Example Mod Tab",
+  "itemGroup.lumifox": "LumiFox",
   "block.lumifox.example_block": "Example Block",
-  "item.lumifox.example_item": "Example Item"
+  "item.lumifox.example_item": "Example Item",
+  "entity.lumifox.lumi_fox": "Lumi Fox",
+  "item.lumifox.lumi_fox_spawn_egg": "Lumi Fox Spawn Egg",
+  "item.lumifox.lumi_fox_spawn_egg.desc": "Умная лисичка Lumi - ваш верный друг!"
 }

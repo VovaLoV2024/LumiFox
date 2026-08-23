@@ -34,32 +34,42 @@ import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredItem;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
+// Импорт классов регистрации мода
+import net.vovawolf.lumifox.registry.ModEntityTypes;
+import net.vovawolf.lumifox.registry.ModItems;
+import net.vovawolf.lumifox.entity.LumiFox;
+import net.vovawolf.lumifox.entity.client.LumiFoxRenderer;
+import net.vovawolf.lumifox.entity.client.LumiFoxModel;
+import net.minecraft.client.renderer.entity.EntityRenderers;
+import net.minecraft.client.model.geom.ModelLayerLocation;
+import net.minecraft.resources.ResourceLocation;
+
 // The value here should match an entry in the META-INF/mods.toml file
-@Mod(LumiFox.MODID)
-public class LumiFox {
+@Mod(LumiMod.MODID)
+public class LumiMod {
     // Define mod id in a common place for everything to reference
-    public static final String MODID = "lumifox";
+    public static final String MODID = "lumi";
     // Directly reference a slf4j logger
     public static final Logger LOGGER = LogUtils.getLogger();
-    // Create a Deferred Register to hold Blocks which will all be registered under the "lumifox" namespace
+    // Create a Deferred Register to hold Blocks which will all be registered under the "lumi" namespace
     public static final DeferredRegister.Blocks BLOCKS = DeferredRegister.createBlocks(MODID);
-    // Create a Deferred Register to hold Items which will all be registered under the "lumifox" namespace
+    // Create a Deferred Register to hold Items which will all be registered under the "lumi" namespace
     public static final DeferredRegister.Items ITEMS = DeferredRegister.createItems(MODID);
-    // Create a Deferred Register to hold CreativeModeTabs which will all be registered under the "lumifox" namespace
+    // Create a Deferred Register to hold CreativeModeTabs which will all be registered under the "lumi" namespace
     public static final DeferredRegister<CreativeModeTab> CREATIVE_MODE_TABS = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, MODID);
 
-    // Creates a new Block with the id "lumifox:example_block", combining the namespace and path
+    // Creates a new Block with the id "lumi:example_block", combining the namespace and path
     public static final DeferredBlock<Block> EXAMPLE_BLOCK = BLOCKS.registerSimpleBlock("example_block", BlockBehaviour.Properties.of().mapColor(MapColor.STONE));
-    // Creates a new BlockItem with the id "lumifox:example_block", combining the namespace and path
+    // Creates a new BlockItem with the id "lumi:example_block", combining the namespace and path
     public static final DeferredItem<BlockItem> EXAMPLE_BLOCK_ITEM = ITEMS.registerSimpleBlockItem("example_block", EXAMPLE_BLOCK);
 
-    // Creates a new food item with the id "lumifox:example_id", nutrition 1 and saturation 2
+    // Creates a new food item with the id "lumi:example_id", nutrition 1 and saturation 2
     public static final DeferredItem<Item> EXAMPLE_ITEM = ITEMS.registerSimpleItem("example_item", new Item.Properties().food(new FoodProperties.Builder()
             .alwaysEat().nutrition(1).saturationMod(2f).build()));
 
-    // Creates a creative tab with the id "lumifox:example_tab" for the example item, that is placed after the combat tab
+    // Creates a creative tab with the id "lumi:example_tab" for the example item, that is placed after the combat tab
     public static final DeferredHolder<CreativeModeTab, CreativeModeTab> EXAMPLE_TAB = CREATIVE_MODE_TABS.register("example_tab", () -> CreativeModeTab.builder()
-            .title(Component.translatable("itemGroup.lumifox")) //The language key for the title of your CreativeModeTab
+            .title(Component.translatable("itemGroup.lumi")) //The language key for the title of your CreativeModeTab
             .withTabsBefore(CreativeModeTabs.COMBAT)
             .icon(() -> EXAMPLE_ITEM.get().getDefaultInstance())
             .displayItems((parameters, output) -> {
@@ -68,7 +78,7 @@ public class LumiFox {
 
     // The constructor for the mod class is the first code that is run when your mod is loaded.
     // FML will recognize some parameter types like IEventBus or ModContainer and pass them in automatically.
-    public LumiFox(IEventBus modEventBus) {
+    public LumiMod(IEventBus modEventBus) {
         // Register the commonSetup method for modloading
         modEventBus.addListener(this::commonSetup);
 
@@ -78,9 +88,14 @@ public class LumiFox {
         ITEMS.register(modEventBus);
         // Register the Deferred Register to the mod event bus so tabs get registered
         CREATIVE_MODE_TABS.register(modEventBus);
+        
+        // Регистрируем Deferred Register для сущностей
+        ModEntityTypes.ENTITY_TYPES.register(modEventBus);
+        // Регистрируем Deferred Register для предметов (яйцо призыва)
+        ModItems.ITEMS.register(modEventBus);
 
         // Register ourselves for server and other game events we are interested in.
-        // Note that this is necessary if and only if we want *this* class (LumiFox) to respond directly to events.
+        // Note that this is necessary if and only if we want *this* class (LumiMod) to respond directly to events.
         // Do not add this line if there are no @SubscribeEvent-annotated functions in this class, like onServerStarting() below.
         NeoForge.EVENT_BUS.register(this);
 
@@ -102,12 +117,22 @@ public class LumiFox {
         LOGGER.info("{}{}", Config.MAGIC_NUMBER_INTRODUCTION.get(), Config.MAGIC_NUMBER.getAsInt());
 
         Config.ITEM_STRINGS.get().forEach((item) -> LOGGER.info("ITEM >> {}", item));
+        
+        // Регистрация атрибутов для LumiFox
+        event.enqueueWork(() -> {
+            // Здесь можно зарегистрировать атрибуты если нужно
+        });
     }
 
     // Add the example block item to the building blocks tab
     private void addCreative(BuildCreativeModeTabContentsEvent event) {
         if (event.getTabKey() == CreativeModeTabs.BUILDING_BLOCKS) {
             event.accept(EXAMPLE_BLOCK_ITEM);
+        }
+        
+        // Добавляем яйцо призыва LumiFox в спавнеры
+        if (event.getTabKey() == CreativeModeTabs.SPAWN_EGGS) {
+            event.accept(ModItems.LUMI_FOX_SPAWN_EGG.get());
         }
     }
 
@@ -119,13 +144,18 @@ public class LumiFox {
     }
 
     // You can use EventBusSubscriber to automatically register all static methods in the class annotated with @SubscribeEvent
-    @EventBusSubscriber(modid = LumiFox.MODID, bus = EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
+    @EventBusSubscriber(modid = LumiMod.MODID, bus = EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
     static class ClientModEvents {
         @SubscribeEvent
         static void onClientSetup(FMLClientSetupEvent event) {
             // Some client setup code
             LOGGER.info("HELLO FROM CLIENT SETUP");
             LOGGER.info("MINECRAFT NAME >> {}", Minecraft.getInstance().getUser().getName());
+            
+            // Регистрация рендерера для LumiFox
+            event.enqueueWork(() -> {
+                EntityRenderers.register(ModEntityTypes.LUMI_FOX.get(), LumiFoxRenderer::new);
+            });
         }
     }
 }

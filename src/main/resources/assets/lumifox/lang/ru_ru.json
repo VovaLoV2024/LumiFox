@@ -1,0 +1,8 @@
+{
+  "itemGroup.lumifox": "LumiFox",
+  "block.lumifox.example_block": "Пример блока",
+  "item.lumifox.example_item": "Пример предмета",
+  "entity.lumifox.lumi_fox": "Лисичка Lumi",
+  "item.lumifox.lumi_fox_spawn_egg": "Яйцо призыва лисички Lumi",
+  "item.lumifox.lumi_fox_spawn_egg.desc": "Умная лисичка Lumi - ваш верный друг!"
+}
