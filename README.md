@@ -19,7 +19,7 @@
 ## Сборка
 
 ```bash
-./gradlew build
+gradlew.bat build
 ```
 
 Собранный jar будет доступен в `build/libs/lumifox-1.0.1.jar`.
