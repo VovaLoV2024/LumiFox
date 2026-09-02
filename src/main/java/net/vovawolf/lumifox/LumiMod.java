@@ -49,7 +49,7 @@ import net.minecraft.resources.ResourceLocation;
 @Mod(LumiMod.MODID)
 public class LumiMod {
     // Define mod id in a common place for everything to reference
-    public static final String MODID = "lumi";
+    public static final String MODID = "lumifox";
     // Directly reference a slf4j logger
     public static final Logger LOGGER = LogUtils.getLogger();
     // Create a Deferred Register to hold Blocks which will all be registered under the "lumi" namespace
