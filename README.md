@@ -22,7 +22,7 @@
 gradlew.bat build
 ```
 
-Собранный jar будет доступен в `build/libs/lumifox-1.0.1.jar`.
+Собранный jar будет доступен в   `build/libs/lumifox-1.0.1.jar`.
 
 ## Технологии
 
